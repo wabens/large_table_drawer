@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 //import SmartDataTable from 'react-smart-data-table'
-import { Column, Table, Autosizer } from 'react-virtualized';
+import { Column, Table, AutoSizer } from 'react-virtualized';
+import 'react-virtualized/styles.css'; // only needs to be imported once
 
 const incubatorData = require('../../data.modules/incubatorData')
+
 
 
 
@@ -12,32 +14,44 @@ class SmartTable extends Component {
     console.log(`incubator data `, incubatorData);
   }
 
-  columnsToRender =() => {
+  // columnsToRender =(array) => {
+  //   const columnNames = Object.keys(array[0]);
+  //   console.log(`keys `, columnNames);
     
-  }
+  // }
 
   render() {
-
+    const columnNames = Object.keys(incubatorData[0]);
     
 
     return (
-      <div className={tableBlock}>
-        <AutoSizer>
-          {({ height, width }) => (
+      // <div>
+      //   <AutoSizer>
+      //     {({ height, width }) => (
           <Table
-            height={height}
-            width={width}
+            height={1000}
+            width={1000}
             headerHeight={30}
             rowCount={incubatorData.length}
             rowGetter={({ index }) => incubatorData[index]}
             rowHeight={30}
           >
+          {columnNames.map(key => 
+            <Column
+
+              label= {key}
+              dataKey={key}
+              width={100}
+            /> 
+          )}
+
+          
 
           </Table>
-        )}
-        </AutoSizer>
+        // )}
+        // </AutoSizer>
 
-      </div>
+      /* </div> */
     );
   }
 }
