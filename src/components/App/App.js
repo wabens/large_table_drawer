@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import SmartTable from '../SmartTable/SmartTable'
 const incubatorData = require('../../data.modules/incubatorData')
 
 
@@ -14,7 +15,7 @@ class App extends Component {
 
     return (
       <div className="App">
-  
+        <SmartTable/>
       </div>
     );
   }
