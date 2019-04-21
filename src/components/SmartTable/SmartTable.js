@@ -72,7 +72,7 @@ class SmartTable extends Component {
         className={'dataCell'}
         onClick={()=>this.handleDataClick(rowIndex, columnIndex)}
       >
-          {list[rowIndex][columnIndex]}
+        {list[rowIndex][columnIndex]}
       </div>
     )  
   }

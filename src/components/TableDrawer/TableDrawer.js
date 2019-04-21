@@ -3,17 +3,23 @@ import Drawer from '@material-ui/core/Drawer';
 
 
 class TableDrawer extends Component {
+  state= {
+    open: false,
+  }
+
+  toggleDrawer = () => {
+    this.setState({
+      open: !this.state.open,
+    })
+  }
+
   render() {
     return (
     <section>
-        <Drawer anchor="bottom" open={this.state.open} onClose={this.toggleDrawer('right', false)}>
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer('right', false)}
-            onKeyDown={this.toggleDrawer('right', false)}
-          >
-            {sideList}
+        <button onClick={this.toggleDrawer}>OPEN</button>
+        <Drawer anchor="bottom" open={this.state.open} >
+          <div onClick={this.toggleDrawer}>
+            <h1>THE DRAWER IS OPEN</h1>
           </div>
         </Drawer>
     </section>
