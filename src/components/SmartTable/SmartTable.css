@@ -3,5 +3,5 @@
 } */
 
 .dataCell{
-    
+    word-wrap: break-word;
 }

@@ -29,11 +29,14 @@ const incubatorData = require('../../data.modules/incubatorData')
 
   function listToIndex (data) {
     let result = [];
+    let columnNames = Object.keys(data[0])
     for (let obj of data) {
       let newArray = Object.values(obj);
       result.push(newArray);
     }
     console.log(`listToIndex...`);
+    console.log(`column names `, columnNames);
+    result.unshift(columnNames);
     return result
   };
 
@@ -41,8 +44,8 @@ const incubatorData = require('../../data.modules/incubatorData')
 
 class SmartTable extends Component {
   
-  handleDataClick = (event) => {
-    console.log(`event`, event.key );
+  handleDataClick = (row, column) => {
+    console.log(`position `, row, column);
     
   }
 
@@ -56,8 +59,7 @@ class SmartTable extends Component {
         key={key}
         style={style}
         className={'dataCell'}
-        onClick={this.handleDataClick}
-        name={list[rowIndex][columnIndex]}
+        onClick={()=>this.handleDataClick(rowIndex, columnIndex)}
       >
           {list[rowIndex][columnIndex]}
       </div>
