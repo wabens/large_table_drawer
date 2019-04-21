@@ -1,0 +1,17 @@
+/* .fixedHeader{
+    position: absolute;
+} */
+
+.dataCell{
+    word-wrap: break-word;
+    border: solid grey .5px;
+}
+
+.headerCell{
+    word-wrap: break-word;
+    border: solid grey .5px;
+}
+
+.selectCell{
+    border: solid red 1px;
+}

@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
-import './App.css';
-const incubatorData = require('../../data.modules/incubatorData')
+// import './App.css';
+import SmartTable from '../SmartTable/SmartTable'
+import SimpleExample from '../SimpleExample/SimpleExample'
+import TableDrawer from '../TableDrawer/TableDrawer'
+
 
 
 
 class App extends Component {
 
   componentDidMount(){
-    console.log(`incubator data `, incubatorData);
   }
   render() {
 
 
     return (
-      <div className="App">
-  
-      </div>
+      // <SimpleExample/>
+      //<SmartTable/>
+      <TableDrawer/>
+    
     );
   }
 }
