@@ -4,4 +4,5 @@
 
 .dataCell{
     word-wrap: break-word;
+    border: solid grey .5px;
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //import SmartDataTable from 'react-smart-data-table'
-import { Grid } from 'react-virtualized';
+import { MultiGrid } from 'react-virtualized';
 import './SmartTable.css'
 import 'react-virtualized/styles.css'; // only needs to be imported once
 
@@ -76,14 +76,17 @@ class SmartTable extends Component {
     //   ['Brian Vaughn', 'Software Engineer', 'San Jose', 'CA', 95125]
     // ];
     return (
-      <Grid
-      cellRenderer={this.cellRenderer}
+      <MultiGrid
       columnCount={list[0].length}
       columnWidth={100}
       height={1000}
       rowCount={list.length}
       rowHeight={50}
       width={1000}
+      fixedColumnCount={1}
+      fixedRowCount={1}
+      cellRenderer={this.cellRenderer}
+
       />
     )
   }
