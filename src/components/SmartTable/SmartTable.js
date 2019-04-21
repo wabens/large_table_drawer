@@ -40,63 +40,112 @@ const incubatorData = require('../../data.modules/incubatorData')
   };
 
   // in actual implementaiton this will be in redux state or passed as props
-  let toSort = listToIndex(incubatorData)
   let list = listToIndex(incubatorData); 
   const columnNames = Object.keys(incubatorData[0]);
   list.unshift(columnNames);
 
 class SmartTable extends Component {
-  
-  handleDataClick = (row, column) => {
-    console.log(`position `, row, column);
-    let columnNames = list.shift();
-    sort(list).asc(l=>l[column]);
-    list.unshift(columnNames)
-    console.log(`sorted `, list);
 
-    
-    
+  state={
+    sort: '',
+    position:{
+      row: null,
+      column: null,
+    }
+  }
+  
+  handleDataClick = (row, column) => {    
+    console.log(`position `, row, column);
+    this.setState({
+      position:{
+        row,
+        column,
+      }
+    })    
+  }
+  handleSort = (column) =>{
+    if(this.state.sort===''){
+      let columnNames = list.shift();
+      sort(list).asc(l=>l[column]);
+      list.unshift(columnNames)
+      console.log(`sorted `, list);
+      this.setState({
+        sort: 'ASC'
+      })
+    }
+    else if(this.state.sort==='ASC'){
+      let columnNames = list.shift();
+      sort(list).desc(l=>l[column]);
+      list.unshift(columnNames)
+      console.log(`sorted `, list);
+      this.setState({
+        sort: 'DESC'
+      })
+    }
+    else if(this.state.sort==='DESC'){
+      list = listToIndex(incubatorData);
+      this.setState({
+        sort: ''
+      })
+    }
   }
 
   componentDidMount(){
     console.log(`column names `, columnNames);
   }
   cellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-    // console.log(`list `, list);
-    // console.log(`columnNames `, columnNames);
-    
-    return (
-      <div
-        key={key}
-        style={style}
-        className={'dataCell'}
-        onClick={()=>this.handleDataClick(rowIndex, columnIndex)}
-      >
-        {list[rowIndex][columnIndex]}
-      </div>
-    )  
+    let cellStyle = 'dataCell';
+    if(columnIndex===this.state.position.column && rowIndex===this.state.position.row){
+      cellStyle ='selectCell';
+    }
+
+    if(rowIndex===0){ // if columnHead (row 0), render button
+      return(
+        <div
+          key={key}
+          style={style}
+          className={'headerCell'}
+          onClick={()=>this.handleDataClick(rowIndex, columnIndex)}
+        >
+          <button onClick={()=>this.handleSort(columnIndex)}>{this.state.sort}</button>
+          {list[rowIndex][columnIndex]}
+        </div>
+      )
+    }else{  // normal data cell
+      return (
+        <div
+          key={key}
+          style={style}
+          className={cellStyle}
+          onClick={()=>this.handleDataClick(rowIndex, columnIndex)}
+        >
+          {list[rowIndex][columnIndex]}
+        </div>
+      )  
+    }
   }
 
   render() {
     
-    // const list = [
-    //   ['Brian Vaughn', 'Software Engineer', 'San Jose', 'CA', 95125],
-    //   ['Brian Vaughn', 'Software Engineer', 'San Jose', 'CA', 95125],
-    //   ['Brian Vaughn', 'Software Engineer', 'San Jose', 'CA', 95125],
-    //   ['Brian Vaughn', 'Software Engineer', 'San Jose', 'CA', 95125]
-    // ];
+    console.log(`state position `, this.state.position);
+
     return (
       <MultiGrid
-      columnCount={list[0].length}
-      columnWidth={100}
-      height={1000}
-      rowCount={list.length+1}
-      rowHeight={50}
-      width={1000}
-      fixedColumnCount={1}
-      fixedRowCount={1}
-      cellRenderer={this.cellRenderer}
-
+        columnCount={list[0].length}
+        columnWidth={100}
+        height={1000}
+        rowCount={list.length+1}
+        rowHeight={50}
+        width={1000}
+        fixedColumnCount={1}
+        fixedRowCount={1}
+        cellRenderer={this.cellRenderer}
+        styleTopRightGrid={{
+          border: 'solid blue 1px',
+        }}
+        styleBottomLeftGrid={{
+          border: 'solid blue 1px',
+        }}
       />
     )
   }
