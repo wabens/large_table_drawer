@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import SmartTable from '../SmartTable/SmartTable'
+import SmartTable from '../SmartTable/SmartTable';
+import './TableDrawer.css';
 
 
 class TableDrawer extends Component {
@@ -19,7 +20,7 @@ class TableDrawer extends Component {
     <section>
         <button onClick={this.toggleDrawer}>OPEN</button>
         <Drawer anchor="bottom" open={this.state.open} >
-          <div>
+          <div className={'drawerDiv'}>
             <button onClick={this.toggleDrawer}>CLOSE</button>
             <SmartTable/>
           </div>

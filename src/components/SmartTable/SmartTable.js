@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MultiGrid } from 'react-virtualized';
+import { MultiGrid, AutoSizer } from 'react-virtualized';
 import './SmartTable.css'
 import 'react-virtualized/styles.css'; // only needs to be imported once
 import sort from 'fast-sort'; // to sort columns
@@ -84,6 +84,7 @@ class SmartTable extends Component {
     }
     else if(this.state.sort==='DESC'){
       list = listToIndex(incubatorData);
+      list.unshift(columnNames)
       this.setState({
         sort: ''
       })
@@ -95,22 +96,39 @@ class SmartTable extends Component {
   }
   cellRenderer = ({ columnIndex, key, rowIndex, style }) => {
     let cellStyle = 'dataCell';
+    // checks position of selected cell against current rendering cell
+    // changes style if selected for highlight effect
     if(columnIndex===this.state.position.column && rowIndex===this.state.position.row){
       cellStyle ='selectCell';
     }
 
     if(rowIndex===0){ // if columnHead (row 0), render button
-      return(
-        <div
-          key={key}
-          style={style}
-          className={'headerCell'}
-          onClick={()=>this.handleDataClick(rowIndex, columnIndex)}
-        >
-          <button onClick={()=>this.handleSort(columnIndex)}>{this.state.sort}</button>
-          {list[rowIndex][columnIndex]}
-        </div>
-      )
+      if(columnIndex===this.state.position.column){
+        return(
+          <div
+            key={key}
+            style={style}
+            className={'headerCell'}
+            onClick={()=>this.handleDataClick(rowIndex, columnIndex)}
+          >
+            <button onClick={()=>this.handleSort(columnIndex)}>{this.state.sort}</button>
+            {list[rowIndex][columnIndex]}
+          </div>
+        )
+      }
+      else{
+        return(
+          <div
+            key={key}
+            style={style}
+            className={'headerCell'}
+            onClick={()=>this.handleDataClick(rowIndex, columnIndex)}
+          >
+            <button onClick={()=>this.handleSort(columnIndex)}></button>
+            {list[rowIndex][columnIndex]}
+          </div>
+        )
+      }
     }else{  // normal data cell
       return (
         <div
@@ -130,25 +148,29 @@ class SmartTable extends Component {
     console.log(`state position `, this.state.position);
 
     return (
-      <MultiGrid
-        columnCount={list[0].length}
-        columnWidth={100}
-        height={1000}
-        rowCount={list.length+1}
-        rowHeight={50}
-        width={1000}
-        fixedColumnCount={1}
-        fixedRowCount={1}
-        cellRenderer={this.cellRenderer}
-        styleTopRightGrid={{
-          border: 'solid blue 1px',
-        }}
-        styleBottomLeftGrid={{
-          border: 'solid blue 1px',
-        }}
-      />
+      <AutoSizer>
+      {({ height, width }) => (
+        <MultiGrid
+          columnCount={list[0].length}
+          columnWidth={100}
+          height={height}
+          rowCount={list.length+1}
+          rowHeight={50}
+          width={width}
+          fixedColumnCount={1}
+          fixedRowCount={1}
+          cellRenderer={this.cellRenderer}
+          styleTopRightGrid={{
+            border: 'solid blue 1px',
+          }}
+          styleBottomLeftGrid={{
+            border: 'solid blue 1px',
+          }}
+        />
+      )}
+      </AutoSizer>
     )
-  }
+  }   
 }
 
 export default SmartTable;
