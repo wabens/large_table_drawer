@@ -19,7 +19,7 @@ class TableDrawer extends Component {
     return (
     <section>
         <button onClick={this.toggleDrawer}>OPEN</button>
-        <Drawer anchor="bottom" open={this.state.open} >
+        <Drawer anchor="bottom" open={this.state.open} variant='persistent'>
           <div className={'drawerDiv'}>
             <button onClick={this.toggleDrawer}>CLOSE</button>
             <SmartTable/>
